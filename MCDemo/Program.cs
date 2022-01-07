@@ -1,0 +1,184 @@
+﻿using System;
+using System.IO;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+//
+// 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
+//
+namespace MC
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string s;
+            int i;
+            Console.WriteLine("******************************");
+            Console.WriteLine("* Choose 1 for MCTool        *");
+            Console.WriteLine("* Choose 2 for GLUE          *");
+            Console.WriteLine("* Any other key to exit      *");
+            Console.WriteLine("******************************");
+            s=Console.ReadLine();
+            int.TryParse(s, out i);
+
+            MCParameters.GLUE = i;
+
+            switch (i)
+            {
+                case 1:
+                    MC_Main(args);
+                    break;
+                case 2:
+                    GLUE_Main(args);
+                    break;
+                default:
+                    Console.WriteLine("No valid argument provided, exiting");
+                    break;
+            }
+        }
+
+        static void MC_Main(string[] args)
+        {
+            //remove the successful completion flag
+            if (File.Exists("SuccessfulCompletion.txt"))
+            {
+                File.Delete("SuccessfulCompletion.txt");
+            }
+
+            //check that it will be possible to write to a database
+            resultsDatabase MCResults = new resultsDatabase();
+
+            MCResults.cleanUp();
+            
+             InteractWithModel.whatModel();
+
+            //use the commandString to get all the arguments
+            commandString cs = new commandString();
+            //use runString to get the right set of output files written, "-size none" during runs
+            String runString;
+
+            InteractWithModel.setRunMCParameters();
+ 
+            cs.populate();
+
+            //this will need to be updated as more models are added
+            switch(MCParameters.model)
+            {
+                case 1:
+                case 8:
+                case 10:
+                    MCParameters.coefficientsFile = "PERSiST_Errors.csv";
+                    break;
+                default:
+                    MCParameters.coefficientsFile = "coefficients.csv";
+                    break;
+            }
+            
+            InteractWithModel.setLandUseAndReaches();
+
+            //run the model once to ensure outputs exist
+            runString = string.Concat(cs.commandLine, " -size none");
+            Console.WriteLine(runString);
+            
+            InteractWithModel.runModel(runString);
+
+            InteractWithModel.setCoefficientWeights();
+            InteractWithModel.writeCoefficientWeights();
+            InteractWithModel.setSeriesWeights();
+            // 
+            // sometimes default parameter file does not exist, causes MCNew to fail
+            //
+            MCMCController.MCNew("mc.csv", runString);
+            MCParameters.runsToOrganize = MCParameters.maxTries;
+
+            //now we need some output
+            //so we need to reset the runstring
+            
+            runString = string.Concat(cs.commandLine, " -size ", MCParameters.outputSize, " ");
+            //may be needed
+            if (MCParameters.model == 1 ^ MCParameters.model == 8 ^ MCParameters.model==10 )
+            {
+                runString=string.Concat(runString, " -inca ", MCParameters.INCAOutputFile );
+            }
+
+            MCResults.processParameterData();
+            MCResults.createParameterSensitivitySummaryTable();
+            MCResults.writeCoefficientWeights();
+
+            SummarizeResults.write(runString);
+            SummarizeResults.noteSuccessfulCompletion();
+            Console.ReadLine();
+        }
+        
+        static void GLUE_Main(string[] args)
+        {
+            //remove the successful completion flag
+            if (File.Exists("SuccessfulCompletion.txt"))
+            {
+                File.Delete("SuccessfulCompletion.txt");
+            }
+            InteractWithModel.whatModel();
+
+            //use the commandString to get all the arguments
+            commandString cs = new commandString();
+            //use runString to get the right set of output files written, "-size none" during runs
+            String runString;
+
+            InteractWithModel.setRunMCParameters();
+
+            cs.populate();
+
+            //this will need to be updated as more models are added
+
+            //debug - should be 8
+            Console.WriteLine("Should be 8:", MCParameters.model);
+
+            switch(MCParameters.model)
+            {
+                case 1:
+                case 8:
+                case 10:
+                    {
+                        MCParameters.coefficientsFile = "PERSiST_Errors.csv";
+                        break;
+                    }
+                default:
+                    {
+                        MCParameters.coefficientsFile = "coefficients.csv";
+                        break;
+                    }
+            }
+                
+            InteractWithModel.setLandUseAndReaches();
+
+            //run the model once to ensure outputs exist
+            runString = string.Concat(cs.commandLine, " -size none");
+            Console.WriteLine(runString);
+
+            InteractWithModel.runModel(runString);
+            InteractWithModel.setCoefficientWeights();
+            InteractWithModel.writeCoefficientWeights();
+            InteractWithModel.setSeriesWeights();
+            
+            for(long i=0;i<12500; i++)
+            {
+                GLUEAccounting.GLUERun(runString, i);
+            }
+
+            //write a note of successful completion
+            if (!File.Exists("SuccessfulCompletion.txt"))
+            {
+                // Create a file to write to. 
+                using (StreamWriter sw = File.CreateText("SuccessfulCompletion.txt"))
+                {
+                    sw.WriteLine("Successful Completion");
+                    sw.WriteLine("Date: {0}", System.DateTime.Now.ToString());
+                }
+            }
+        }
+    }
+
+}

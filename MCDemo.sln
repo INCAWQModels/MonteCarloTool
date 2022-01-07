@@ -1,0 +1,30 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MCDemo", "MCDemo\MCDemo.csproj", "{73DBA9FF-7B19-45F1-885F-445EF2E6DD9C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Mixed Platforms = Debug|Mixed Platforms
+		Debug|Win32 = Debug|Win32
+		Debug|x86 = Debug|x86
+		Release|Mixed Platforms = Release|Mixed Platforms
+		Release|Win32 = Release|Win32
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{73DBA9FF-7B19-45F1-885F-445EF2E6DD9C}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{73DBA9FF-7B19-45F1-885F-445EF2E6DD9C}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{73DBA9FF-7B19-45F1-885F-445EF2E6DD9C}.Debug|Win32.ActiveCfg = Debug|x86
+		{73DBA9FF-7B19-45F1-885F-445EF2E6DD9C}.Debug|x86.ActiveCfg = Debug|x86
+		{73DBA9FF-7B19-45F1-885F-445EF2E6DD9C}.Debug|x86.Build.0 = Debug|x86
+		{73DBA9FF-7B19-45F1-885F-445EF2E6DD9C}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{73DBA9FF-7B19-45F1-885F-445EF2E6DD9C}.Release|Mixed Platforms.Build.0 = Release|x86
+		{73DBA9FF-7B19-45F1-885F-445EF2E6DD9C}.Release|Win32.ActiveCfg = Release|x86
+		{73DBA9FF-7B19-45F1-885F-445EF2E6DD9C}.Release|x86.ActiveCfg = Release|x86
+		{73DBA9FF-7B19-45F1-885F-445EF2E6DD9C}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
