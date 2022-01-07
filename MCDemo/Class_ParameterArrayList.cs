@@ -1363,14 +1363,6 @@ namespace MC
                 header.Append((m++).ToString()).Append(MCParameters.separatorChar).Append("EffluentAbstractionFlag(").Append(i.ToString()).Append(")").Append("\n");
                 header.Append((m++).ToString()).Append(MCParameters.separatorChar).Append("Latitude(").Append(i.ToString()).Append(")").Append("\n");
                 header.Append((m++).ToString()).Append(MCParameters.separatorChar).Append("Longitude(").Append(i.ToString()).Append(")").Append("\n");
-                header.Append((m++).ToString()).Append(MCParameters.separatorChar).Append("Mannings_c(").Append(i.ToString()).Append(")").Append("\n");
-                header.Append((m++).ToString()).Append(MCParameters.separatorChar).Append("Mannings_f(").Append(i.ToString()).Append(")").Append("\n");
-                header.Append((m++).ToString()).Append(MCParameters.separatorChar).Append("ChannelWidthAtSedimentSurface(").Append(i.ToString()).Append(")").Append("\n");
-                header.Append((m++).ToString()).Append(MCParameters.separatorChar).Append("Mannings_n(").Append(i.ToString()).Append(")").Append("\n");
-                header.Append((m++).ToString()).Append(MCParameters.separatorChar).Append("ChannelSlope(").Append(i.ToString()).Append(")").Append("\n");
-                header.Append((m++).ToString()).Append(MCParameters.separatorChar).Append("InstreamMineralisationRate(").Append(i.ToString()).Append(")").Append("\n");
-                header.Append((m++).ToString()).Append(MCParameters.separatorChar).Append("InstreamImmobilisationRate(").Append(i.ToString()).Append(")").Append("\n");
-                header.Append((m++).ToString()).Append(MCParameters.separatorChar).Append("EffluentDON(").Append(i.ToString()).Append(")").Append("\n");
             }
         }
     }

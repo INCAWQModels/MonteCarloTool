@@ -5,9 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-//
-// 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
-//
+
 namespace MC
 {
     class Program
