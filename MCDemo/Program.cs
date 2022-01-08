@@ -10,7 +10,7 @@ namespace MC
 {
     class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
             string s;
             int i;
@@ -27,10 +27,10 @@ namespace MC
             switch (i)
             {
                 case 1:
-                    MC_Main(args);
+                    MC_Main();
                     break;
                 case 2:
-                    GLUE_Main(args);
+                    GLUE_Main();
                     break;
                 default:
                     Console.WriteLine("No valid argument provided, exiting");
@@ -38,7 +38,7 @@ namespace MC
             }
         }
 
-        static void MC_Main(string[] args)
+        static void MC_Main()
         {
             //remove the successful completion flag
             if (File.Exists("SuccessfulCompletion.txt"))
@@ -54,13 +54,13 @@ namespace MC
              InteractWithModel.whatModel();
 
             //use the commandString to get all the arguments
-            commandString cs = new commandString();
+            CommandString cs = new CommandString();
             //use runString to get the right set of output files written, "-size none" during runs
             String runString;
 
             InteractWithModel.setRunMCParameters();
  
-            cs.populate();
+            cs.Populate();
 
             //this will need to be updated as more models are added
             switch(MCParameters.model)
@@ -111,7 +111,7 @@ namespace MC
             Console.ReadLine();
         }
         
-        static void GLUE_Main(string[] args)
+        static void GLUE_Main()
         {
             //remove the successful completion flag
             if (File.Exists("SuccessfulCompletion.txt"))
@@ -121,18 +121,15 @@ namespace MC
             InteractWithModel.whatModel();
 
             //use the commandString to get all the arguments
-            commandString cs = new commandString();
+            CommandString cs = new CommandString();
             //use runString to get the right set of output files written, "-size none" during runs
             String runString;
 
             InteractWithModel.setRunMCParameters();
 
-            cs.populate();
+            cs.Populate();
 
             //this will need to be updated as more models are added
-
-            //debug - should be 8
-            Console.WriteLine("Should be 8:", MCParameters.model);
 
             switch(MCParameters.model)
             {

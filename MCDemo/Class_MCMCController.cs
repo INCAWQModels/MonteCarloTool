@@ -13,7 +13,7 @@ namespace MC
         public int unsuccessfulJumps;
         static Random r = new Random();
         
-        public commandString cs;
+        public CommandString cs;
 
         static void savePerformanceIndex(long runNumber, long maxIterations, long bestPerformanceID, double bestModelPerformance)
         {
@@ -97,18 +97,6 @@ namespace MC
 
             parameterSet min = new parameterSet(MCParameters.minParFile());
             parameterSet max = new parameterSet(MCParameters.maxParFile());
-            //min.writeToArray("min", fileName);
-            //max.writeToArray("max", fileName);
-
-            //stats.csv is no longer needed now we have gone to array based results
-            //StreamWriter statsFile = new StreamWriter("stats.csv");
-            //StringBuilder tmpString = new StringBuilder();
-            //tmpString.Append("MIN").Append(MCParameters.separatorChar).Append("0");
-            //statsFile.WriteLine(tmpString);
-            //tmpString.Clear();
-            //tmpString.Append("MIN").Append(MCParameters.separatorChar).Append("0");
-            //statsFile.WriteLine(tmpString);
-            //statsFile.Close();
 
             MCMC.makeMCMCJumpProposal(MCParameters.defaultScalingFactorForJump, m);
 
