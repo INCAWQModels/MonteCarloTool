@@ -3,13 +3,21 @@ using System.IO;
 
 namespace MC
 {
+    /// <summary>
+    /// store and process GLUE results
+    /// </summary>
     public static class GLUEAccounting
     {
         public static bool runningGLUE = false;
         public static bool saveForGLUE = false;
         static long runCounter = 0;
 
-        public static int saveGLUEResults(parameterSet p)
+        /// <summary>
+        /// save a parameter set as a file with a GLUE identifier
+        /// </summary>
+        /// <param name="p">parameter set to save</param>
+        /// <returns></returns>
+        public static int SaveGLUEResults(parameterSet p)
         {
             int returnVal;
             if (saveForGLUE)
@@ -28,6 +36,11 @@ namespace MC
 
             return returnVal;
         }
+        /// <summary>
+        /// run an interation of a GLUE analysis
+        /// </summary>
+        /// <param name="commandLine">INCA command string to run</param>
+        /// <param name="runNumber">run number in GLUE chain</param>
         public static void GLUERun(string commandLine, long runNumber)
         {
             double testModelPerformance;

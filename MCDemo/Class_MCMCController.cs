@@ -54,7 +54,7 @@ namespace MC
             //use the manual calibration as a starting point
             InteractWithModel.runModel(commandLine);
             m.modelPerformance = InteractWithModel.evaluatePerformanceStatistics();
-            GLUEAccounting.saveGLUEResults(m);
+            GLUEAccounting.SaveGLUEResults(m);
 
             if(double.IsNaN(m.modelPerformance))
             {
@@ -128,7 +128,7 @@ namespace MC
                             m.modelPerformance = InteractWithModel.evaluatePerformanceStatistics();
                             if (MCParameters.model == 2)
                             {
-                                GLUEAccounting.saveGLUEResults(m);
+                                GLUEAccounting.SaveGLUEResults(m);
                             }
 
                             //be quite restrictive with thetest value, doubl square root
