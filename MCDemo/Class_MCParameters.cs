@@ -10,6 +10,22 @@ namespace MC
     {
         public static int model = 1;
         
+        public enum modelID : int
+        {
+            persist14   = 1,
+            inca_c_1x   = 2,
+            inca_PEco   = 3,
+            inca_P      = 4,
+            inca_Tox    = 5,
+            inca_Path   = 6,
+            inca_Hg     = 7,
+            persist16   = 8,
+            inca_ONTHE  = 9,
+            persist_2   = 10,
+            inca_c_2x   = 11,
+            inca_N_1x   = 12
+        }
+        
         public static string modelName()
         {
             string modelName;

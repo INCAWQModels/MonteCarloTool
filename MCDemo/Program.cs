@@ -51,7 +51,7 @@ namespace MC
 
             MCResults.cleanUp();
             
-             InteractWithModel.whatModel();
+             InteractWithModel.WhatModel();
 
             //use the commandString to get all the arguments
             CommandString cs = new CommandString();
@@ -75,17 +75,17 @@ namespace MC
                     break;
             }
             
-            InteractWithModel.setLandUseAndReaches();
+            InteractWithModel.SetLandUseAndReaches();
 
             //run the model once to ensure outputs exist
             runString = string.Concat(cs.commandLine, " -size none");
             Console.WriteLine(runString);
             
-            InteractWithModel.runModel(runString);
+            InteractWithModel.RunModel(runString);
 
-            InteractWithModel.setCoefficientWeights();
-            InteractWithModel.writeCoefficientWeights();
-            InteractWithModel.setSeriesWeights();
+            InteractWithModel.SetCoefficientWeights();
+            InteractWithModel.WriteCoefficientWeights();
+            InteractWithModel.SetSeriesWeights();
             // 
             // sometimes default parameter file does not exist, causes MCNew to fail
             //
@@ -118,7 +118,7 @@ namespace MC
             {
                 File.Delete("SuccessfulCompletion.txt");
             }
-            InteractWithModel.whatModel();
+            InteractWithModel.WhatModel();
 
             //use the commandString to get all the arguments
             CommandString cs = new CommandString();
@@ -130,6 +130,7 @@ namespace MC
             cs.Populate();
 
             //this will need to be updated as more models are added
+            Console.WriteLine(MCParameters.modelID.inca_c_1x);
 
             switch(MCParameters.model)
             {
@@ -147,16 +148,16 @@ namespace MC
                     }
             }
                 
-            InteractWithModel.setLandUseAndReaches();
+            InteractWithModel.SetLandUseAndReaches();
 
             //run the model once to ensure outputs exist
             runString = string.Concat(cs.commandLine, " -size none");
             Console.WriteLine(runString);
 
-            InteractWithModel.runModel(runString);
-            InteractWithModel.setCoefficientWeights();
-            InteractWithModel.writeCoefficientWeights();
-            InteractWithModel.setSeriesWeights();
+            InteractWithModel.RunModel(runString);
+            InteractWithModel.SetCoefficientWeights();
+            InteractWithModel.WriteCoefficientWeights();
+            InteractWithModel.SetSeriesWeights();
             
             for(long i=0;i<12500; i++)
             {

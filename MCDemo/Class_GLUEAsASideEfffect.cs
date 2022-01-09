@@ -47,10 +47,10 @@ namespace MC
             parameterSet g = new parameterSet(MCParameters.MCParFile, MCParameters.minParFile(), MCParameters.maxParFile());
             g.randomizeValues();
             g.write(MCParameters.MCParFile);
-            InteractWithModel.runModel(commandLine);
+            InteractWithModel.RunModel(commandLine);
             string targetFileName = "GLUE_ParameterSet_" + runNumber.ToString() + ".par";
             File.Copy(MCParameters.MCParFile, targetFileName);
-            testModelPerformance = InteractWithModel.evaluatePerformanceStatistics();
+            testModelPerformance = InteractWithModel.EvaluatePerformanceStatistics();
             Console.WriteLine(runNumber.ToString() + ", " + testModelPerformance.ToString());
             using (StreamWriter w = File.AppendText("GLUEPerformance.csv"))
             {

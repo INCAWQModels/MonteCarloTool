@@ -152,8 +152,8 @@ namespace MC
             resultsDatabase rd = new resultsDatabase();
             rd.writeParameterSet(runNumber, p);
 
-            InteractWithModel.runModel(modelCommandLine);
-            double testModelPerformance = InteractWithModel.evaluatePerformanceStatistics();
+            InteractWithModel.RunModel(modelCommandLine);
+            double testModelPerformance = InteractWithModel.EvaluatePerformanceStatistics();
             if(MCParameters.GLUE==2)
             {
                 using (StreamWriter w = File.AppendText("GLUEComparison.csv"))

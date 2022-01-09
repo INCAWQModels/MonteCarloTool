@@ -151,7 +151,7 @@ namespace MC
             commandArguments.Add(new CommandParameter("Growth Periods","-grow"));			// Growth period time series filename
             commandArguments.Add(new CommandParameter("Land Use Periods","-land"));			// Land use period time series filename
             commandArguments.Add(new CommandParameter("Spatial Time Series","-spatial"));			// Spatially distributed time series filename (not needed for main stem-only applications)
-            InteractWithModel.setNumberOfContaminants();
+            InteractWithModel.SetNumberOfContaminants();
        }
 
         /// <summary>

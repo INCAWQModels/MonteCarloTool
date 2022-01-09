@@ -7,15 +7,21 @@ using System.Text;
 
 namespace MC
 {
+    /// <summary>
+    /// Code to interact with INCA executable
+    /// </summary>
     public class InteractWithModel
     {
-        public struct modelStruct
+        /// <summary>
+        /// wrapper structure with model name, id and version
+        /// </summary>
+        public struct ModelStruct
         {
             public int id;
             public string name;
             public string version;
 
-            public modelStruct(int idToUse, string nameToUse, string versionToUse)
+            public ModelStruct(int idToUse, string nameToUse, string versionToUse)
             {
                 id = idToUse;
                 name = nameToUse;
@@ -24,10 +30,13 @@ namespace MC
 
         };
 
-        public static List<modelStruct> availableModels;
+        public static List<ModelStruct> availableModels;
        
 
-        public static void whatModel()
+        /// <summary>
+        /// display list of available models to console
+        /// </summary>
+        public static void WhatModel()
         {
             string r;
             int s;
@@ -36,7 +45,7 @@ namespace MC
 
             Console.WriteLine();
             Console.WriteLine("**************************************");
-            foreach(modelStruct item in availableModels)
+            foreach(ModelStruct item in availableModels)
             {
                 Console.WriteLine("Enter {0} for {1} version {2} : ", item.id, item.name, item.version);
             }
@@ -52,7 +61,11 @@ namespace MC
             }
         }
 
-        public static void runModel(string commandString)
+        /// <summary>
+        /// run a model at the command line
+        /// </summary>
+        /// <param name="commandString">command line to run</param>
+        public static void RunModel(string commandString)
         {
             try
             {
@@ -87,7 +100,12 @@ namespace MC
             }
         }
 
-        protected static double returnNS(string s)
+        /// <summary>
+        /// return useable Nash Sutcliffe (NS-1) for preformance statistics
+        /// </summary>
+        /// <param name="s">string containing candidate NS value</param>
+        /// <returns>NS for performance statistic calculation</returns>
+        protected static double ReturnNS(string s)
         {
             //note that things may behave in a very odd way if NS crosses 0.
             //Maximizing NS-1 will prevent this from happenning
@@ -95,7 +113,7 @@ namespace MC
             try
             {
                 val = Convert.ToDouble(s);
-                val = val-1;
+                val -= 1.0;
             }
             catch
             {
@@ -104,7 +122,12 @@ namespace MC
             return val;
         }
 
-        static double returnLogNS(string s)
+        /// <summary>
+        /// Return useable log(Nash Sutcliffe) log(NS)-1 for performance statistics
+        /// </summary>
+        /// <param name="s">string containing candidate log(NS) value</param>
+        /// <returns>log NS for preformance statistic calculation</returns>
+        static double ReturnLogNS(string s)
         {
             //note that things may behave in a very odd way if NS crosses 0.
             //Maximizing NS-1 will prevent this from happenning
@@ -112,7 +135,7 @@ namespace MC
             try
             {
                 val = Convert.ToDouble(s);
-                val = val - 1;
+                val -= 1.0;
             }
             catch
             {
@@ -121,7 +144,12 @@ namespace MC
             return val;
         }
 
-        static double returnKGE(string s)
+        /// <summary>
+        /// Return useable Kling Gupta Efficiency (KGE-1)
+        /// </summary>
+        /// <param name="s">string containing candidate KGE value</param>
+        /// <returns>KGE for performance statistic calculation</returns>
+        static double ReturnKGE(string s)
         {
             //note that things may behave in a very odd way if KGE crosses 0.
             //Maximizing KGE-1 will prevent this from happenning
@@ -130,7 +158,7 @@ namespace MC
             try
             {
                 val = Convert.ToDouble(s);
-                val = val - 1;
+                val -= 1.0;
             }
             catch
             {
@@ -138,13 +166,18 @@ namespace MC
             }
             return val;
         }
-        static double returnR2(string s)
+        /// <summary>
+        /// Return useable Pearson correlation (R2-1)
+        /// </summary>
+        /// <param name="s">string containing candidate correlation</param>
+        /// <returns>R2 for performance statistic calculation</returns>
+        static double ReturnR2(string s)
         {
             double val;
             try
             {
                 val = Convert.ToDouble(s);
-                val = val - 1.0;
+                val -= 1.0;
             }
             catch
             {
@@ -153,7 +186,12 @@ namespace MC
             return val;
         }
 
-        static double returnAD(string s)
+        /// <summary>
+        /// Return absolute difference (AD) in a useable form for performance statistic calculation
+        /// </summary>
+        /// <param name="s">string containing candidate AD</param>
+        /// <returns>AD for performance statistics</returns>
+        static double ReturnAD(string s)
         {
             double val;
             try
@@ -168,7 +206,12 @@ namespace MC
             return val;
         }
         
-        static double returnRMSE(string s)
+        /// <summary>
+        /// return root mean square error (RMSE) in a form suitable for calculating performance statistics
+        /// </summary>
+        /// <param name="s">string containing candidate RMSE</param>
+        /// <returns>RMSE for performance statistics</returns>
+        static double ReturnRMSE(string s)
         {
             double val;
             try
@@ -183,7 +226,12 @@ namespace MC
             return val;
         }
 
-        static double returnRE(string s)
+        /// <summary>
+        /// return Relative Error (RE) in a format suitable for performance statistics
+        /// </summary>
+        /// <param name="s">string containing candidate RE</param>
+        /// <returns>RE for performance statistics</returns>
+        static double ReturnRE(string s)
         {
             double val;
             try
@@ -198,14 +246,19 @@ namespace MC
             return val;
         }
 
-        static double returnVR(string s)
+        /// <summary>
+        /// return a Variance Ratio (VR) for use in calculating performance statistics
+        /// </summary>
+        /// <param name="s">string containing candidate VR</param>
+        /// <returns>VR for use in performance statistics</returns>
+        static double ReturnVR(string s)
         {
             double val;
             try
             {
                 val = Convert.ToDouble(s);
                 if (val > 1.0) { val = 1.0 / val; }
-                val = val - 1.0;
+                val -= 1.0;
             }
             catch
             {
@@ -215,7 +268,12 @@ namespace MC
 
         }
 
-        static double returnCat(string s)
+        /// <summary>
+        /// process Limits of Acceptablility performace statistics
+        /// </summary>
+        /// <param name="s">string containing candidate statistic</param>
+        /// <returns>candidate LOA statistic</returns>
+        static double ReturnCat(string s)
         {
             double val;
             
@@ -233,13 +291,12 @@ namespace MC
             }
             return val;
         }
-
-public static void writePerformanceStatistics(string rowID, string statisticFileName, string summaryFileName)
-        {
-
-        }
-        
-          public static double evaluatePerformanceStatistics()
+     
+        /// <summary>
+        /// estimate performance statistic (ranges from -infinity to zero) for a model run
+        /// </summary>
+        /// <returns>performance statistic</returns>        
+        public static double EvaluatePerformanceStatistics()
         {
             string fileName = MCParameters.coefficientsFile;
             {
@@ -260,73 +317,72 @@ public static void writePerformanceStatistics(string rowID, string statisticFile
                             {
                                 case 1:     //running PERSiST 1.4
                                 case 8:     //running PERSiST 1.6
-                                    performanceStatistic += MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[1] * returnR2(values[1]);
-                                    performanceStatistic += MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[2] * returnNS(values[2]);
-                                    performanceStatistic += MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[3] * returnLogNS(values[3]);
-                                    performanceStatistic += MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[6] * returnAD(values[6]);
-                                    performanceStatistic += MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[7] * returnVR(values[7]);
+                                    performanceStatistic += MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[1] * ReturnR2(values[1]);
+                                    performanceStatistic += MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[2] * ReturnNS(values[2]);
+                                    performanceStatistic += MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[3] * ReturnLogNS(values[3]);
+                                    performanceStatistic += MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[6] * ReturnAD(values[6]);
+                                    performanceStatistic += MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[7] * ReturnVR(values[7]);
                                     break;
                                 case 10:    //running PERSiST 2.0
-                                    performanceStatistic += MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[1] * returnR2(values[1]);
-                                    performanceStatistic += MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[2] * returnNS(values[2]);
-                                    performanceStatistic += MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[3] * returnLogNS(values[3]);
-                                    performanceStatistic += MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[6] * returnAD(values[6]);
-                                    performanceStatistic += MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[7] * returnVR(values[7]);
+                                    performanceStatistic += MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[1] * ReturnR2(values[1]);
+                                    performanceStatistic += MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[2] * ReturnNS(values[2]);
+                                    performanceStatistic += MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[3] * ReturnLogNS(values[3]);
+                                    performanceStatistic += MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[7] * ReturnVR(values[7]);
                                     //need to check position of KGE
                                     //performanceStatistic += MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[11] * returnKGE(values[11]);
                                     break;
                                 case 2:  // running INCA-C
                                 case 11: //running INCA-C
-                                    performanceStatistic += MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[1] * returnR2(values[1]);
-                                    performanceStatistic += MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[2] * returnNS(values[2]);
+                                    performanceStatistic += MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[1] * ReturnR2(values[1]);
+                                    performanceStatistic += MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[2] * ReturnNS(values[2]);
                                     break;
                                 case 3: // running INCA-PECo
                                     //needs further refinement
-                                    performanceStatistic += MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[1] * returnR2(values[1]);
-                                    performanceStatistic += MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[2] * returnNS(values[2]);
-                                    performanceStatistic += MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[3] * returnRMSE(values[3]);
-                                    performanceStatistic += MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[4] * returnRE(values[4]);
-                                    performanceStatistic += MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[5] * returnVR(values[5]);
-                                    performanceStatistic += MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[6] * returnCat(values[6]);
-                                    performanceStatistic += MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[7] * returnCat(values[7]);
-                                    performanceStatistic += MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[8] * returnCat(values[8]);
-                                    performanceStatistic += MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[9] * returnCat(values[9]);
+                                    performanceStatistic += MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[1] * ReturnR2(values[1]);
+                                    performanceStatistic += MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[2] * ReturnNS(values[2]);
+                                    performanceStatistic += MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[3] * ReturnRMSE(values[3]);
+                                    performanceStatistic += MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[4] * ReturnRE(values[4]);
+                                    performanceStatistic += MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[5] * ReturnVR(values[5]);
+                                    performanceStatistic += MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[6] * ReturnCat(values[6]);
+                                    performanceStatistic += MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[7] * ReturnCat(values[7]);
+                                    performanceStatistic += MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[8] * ReturnCat(values[8]);
+                                    performanceStatistic += MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[9] * ReturnCat(values[9]);
 
                                     //Console.WriteLine("i {0} Performance statistic {1:F} Series weight {2} Coefficient Weight {3} NS {4:F}", i,performanceStatistic, MCParameters.seriesWeights[i], MCParameters.coefficientsWeights[2], returnNS(values[2]));
                                     break;
                                 case 4: // running INCA-P
-                                    performanceStatistic += MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[1] * returnR2(values[1]);
-                                    performanceStatistic += MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[2] * returnNS(values[2]);
-                                    performanceStatistic += MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[5] * returnVR(values[5]);
+                                    performanceStatistic += MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[1] * ReturnR2(values[1]);
+                                    performanceStatistic += MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[2] * ReturnNS(values[2]);
+                                    performanceStatistic += MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[5] * ReturnVR(values[5]);
                                     break;
                                 case 5: // running INCA-Tox
                                         // need NS + Cat-B + Cat-C
-                                    performanceStatistic += MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[2] * returnNS(values[2]);
-                                    performanceStatistic += MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[6] * returnCat(values[6]);
-                                    performanceStatistic += MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[7] * returnCat(values[7]);
+                                    performanceStatistic += MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[2] * ReturnNS(values[2]);
+                                    performanceStatistic += MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[6] * ReturnCat(values[6]);
+                                    performanceStatistic += MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[7] * ReturnCat(values[7]);
                                     break;
                                 case 6: // running INCA-Path
-                                    performanceStatistic += MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[1] * returnR2(values[1]);
-                                    performanceStatistic += MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[2] * returnNS(values[2]);
-                                    performanceStatistic += MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[3] * returnLogNS(values[3]);
-                                    performanceStatistic += MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[7] * returnVR(values[7]);
+                                    performanceStatistic += MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[1] * ReturnR2(values[1]);
+                                    performanceStatistic += MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[2] * ReturnNS(values[2]);
+                                    performanceStatistic += MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[3] * ReturnLogNS(values[3]);
+                                    performanceStatistic += MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[7] * ReturnVR(values[7]);
                                     break;
                                 case 7: //running INCA-Hg
-                                    performanceStatistic += MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[1] * returnR2(values[1]);
-                                    performanceStatistic += MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[2] * returnNS(values[2]);
+                                    performanceStatistic += MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[1] * ReturnR2(values[1]);
+                                    performanceStatistic += MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[2] * ReturnNS(values[2]);
                                     break;
                                 case 9: // running INCA_ON(THE)
-                                    performanceStatistic += MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[1] * returnR2(values[1]);
-                                    performanceStatistic += MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[2] * returnNS(values[2]);
-                                    performanceStatistic += MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[3] * returnLogNS(values[3]);
-                                    performanceStatistic += MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[6] * returnAD(values[6]);
-                                    performanceStatistic += MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[7] * returnVR(values[7]);
-                                    performanceStatistic += MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[11] * returnKGE(values[11]);
+                                    performanceStatistic += MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[1] * ReturnR2(values[1]);
+                                    performanceStatistic += MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[2] * ReturnNS(values[2]);
+                                    performanceStatistic += MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[3] * ReturnLogNS(values[3]);
+                                    performanceStatistic += MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[6] * ReturnAD(values[6]);
+                                    performanceStatistic += MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[7] * ReturnVR(values[7]);
+                                    performanceStatistic += MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[11] * ReturnKGE(values[11]);
                                     break;
                                 case 12: // running INCA-N
-                                    performanceStatistic += MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[1] * returnR2(values[1]);
-                                    performanceStatistic += MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[2] * returnNS(values[2]);
-                                    performanceStatistic += MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[5] * returnVR(values[5]);
+                                    performanceStatistic += MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[1] * ReturnR2(values[1]);
+                                    performanceStatistic += MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[2] * ReturnNS(values[2]);
+                                    performanceStatistic += MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[5] * ReturnVR(values[5]);
                                     break;
                                 default:
                                     Console.WriteLine("This should not happen - invalid model ID code in performance statistic retrieval");
@@ -347,7 +403,12 @@ public static void writePerformanceStatistics(string rowID, string statisticFile
             }
         }
 
-        static double getWeight(string testStatistic)
+        /// <summary>
+        /// get the weight to use for an individual performance statistic
+        /// </summary>
+        /// <param name="testStatistic">name of the statistic</param>
+        /// <returns>statistic weight</returns>
+        static double GetWeight(string testStatistic)
         {
             double weight = 0.0;
             Console.Write("Please enter a weight to use for {0} : ", testStatistic);
@@ -356,60 +417,81 @@ public static void writePerformanceStatistics(string rowID, string statisticFile
             return weight;
         }
 
-        static void setPERSiSTCoefficientWeights()
+        /// <summary>
+        /// set coefficient weights for all version of PERSiST
+        /// </summary>
+        static void SetPERSiSTCoefficientWeights()
         {
-            MCParameters.coefficientsWeights[1] = getWeight("R2 (Pearson Correlation)");
-            MCParameters.coefficientsWeights[2] = getWeight("NS (Nash Sutcliffe)");
-            MCParameters.coefficientsWeights[3] = getWeight("logNS (log(Nash Sutcliffe))");
-            MCParameters.coefficientsWeights[6] = getWeight("AD (Absolute Difference)");
-            MCParameters.coefficientsWeights[7] = getWeight("VR (Variance Ratio)");
+            MCParameters.coefficientsWeights[1] = GetWeight("R2 (Pearson Correlation)");
+            MCParameters.coefficientsWeights[2] = GetWeight("NS (Nash Sutcliffe)");
+            MCParameters.coefficientsWeights[3] = GetWeight("logNS (log(Nash Sutcliffe))");
+            MCParameters.coefficientsWeights[6] = GetWeight("AD (Absolute Difference)");
+            MCParameters.coefficientsWeights[7] = GetWeight("VR (Variance Ratio)");
         }
 
-        static void setINCA_PCoefficientWeights()
+        /// <summary>
+        /// set coefficient weights for INCA-P classic
+        /// </summary>
+        static void SetINCA_PCoefficientWeights()
         {
-            MCParameters.coefficientsWeights[1] = getWeight("R2 (Pearson Correlation)");
-            MCParameters.coefficientsWeights[2] = getWeight("NS (Nash Sutcliffe)");
-            MCParameters.coefficientsWeights[5] = getWeight("VR (Variance Ratio)");
+            MCParameters.coefficientsWeights[1] = GetWeight("R2 (Pearson Correlation)");
+            MCParameters.coefficientsWeights[2] = GetWeight("NS (Nash Sutcliffe)");
+            MCParameters.coefficientsWeights[5] = GetWeight("VR (Variance Ratio)");
         }
 
-        static void setINCA_NCoefficientWeights()
+        /// <summary>
+        /// set coefficient weights for INCA-N classic
+        /// </summary>
+        static void SetINCA_NCoefficientWeights()
         {
-            MCParameters.coefficientsWeights[1] = getWeight("R2 (Pearson Correlation)");
-            MCParameters.coefficientsWeights[2] = getWeight("NS (Nash Sutcliffe)");
-            MCParameters.coefficientsWeights[5] = getWeight("VR (Variance Ratio)");
+            MCParameters.coefficientsWeights[1] = GetWeight("R2 (Pearson Correlation)");
+            MCParameters.coefficientsWeights[2] = GetWeight("NS (Nash Sutcliffe)");
         }
-        static void setINCA_PEcoCoefficientWeights() //INCA_PEco
+        
+        /// <summary>
+        /// set coefficient weights for INCA-PEco
+        /// </summary>
+        static void SetINCA_PEcoCoefficientWeights() //INCA_PEco
         {
-            MCParameters.coefficientsWeights[1] = getWeight("R2 (Pearson Correlation)");
-            MCParameters.coefficientsWeights[2] = getWeight("NS (Nash Sutcliffe)");
-            MCParameters.coefficientsWeights[3] = getWeight("RMSE (Root mean square error)");
-            MCParameters.coefficientsWeights[4] = getWeight("RE (Relative error)");
-            MCParameters.coefficientsWeights[5] = getWeight("VR (Variance Ratio)");
-            MCParameters.coefficientsWeights[7] = getWeight("CatB");
-            MCParameters.coefficientsWeights[8] = getWeight("CatC");
-            MCParameters.coefficientsWeights[9] = getWeight("CatCa");
-            MCParameters.coefficientsWeights[10] = getWeight("CatCb");
-        }
-
-        static void setINCA_ONTHECoefficientWeights()
-        {
-            MCParameters.coefficientsWeights[1] = getWeight("R2 (Pearson Correlation)");
-            MCParameters.coefficientsWeights[2] = getWeight("NS (Nash Sutcliffe)");
-            MCParameters.coefficientsWeights[3] = getWeight("log(NS) (log Nash Sutcliffe)");
-            MCParameters.coefficientsWeights[6] = getWeight("AD (Absolute Difference)");
-            MCParameters.coefficientsWeights[7] = getWeight("VR (Variance Ratio)");
-            MCParameters.coefficientsWeights[11] = getWeight("KGE (Kling Gupta Efficiency)");
+            MCParameters.coefficientsWeights[1] = GetWeight("R2 (Pearson Correlation)");
+            MCParameters.coefficientsWeights[2] = GetWeight("NS (Nash Sutcliffe)");
+            MCParameters.coefficientsWeights[3] = GetWeight("RMSE (Root mean square error)");
+            MCParameters.coefficientsWeights[4] = GetWeight("RE (Relative error)");
+            MCParameters.coefficientsWeights[5] = GetWeight("VR (Variance Ratio)");
+            MCParameters.coefficientsWeights[7] = GetWeight("CatB");
+            MCParameters.coefficientsWeights[8] = GetWeight("CatC");
+            MCParameters.coefficientsWeights[9] = GetWeight("CatCa");
+            MCParameters.coefficientsWeights[10] = GetWeight("CatCb");
         }
 
-        static void setINCA_CCoefficientWeights()
+        /// <summary>
+        /// set coefficient weights for INCA ON THE
+        /// </summary>
+        static void SetINCA_ONTHECoefficientWeights()
         {
-            MCParameters.coefficientsWeights[1] = getWeight("R2 (Pearson Correlation)");
-            MCParameters.coefficientsWeights[2] = getWeight("NS (Nash Sutcliffe)");
+            MCParameters.coefficientsWeights[1] = GetWeight("R2 (Pearson Correlation)");
+            MCParameters.coefficientsWeights[2] = GetWeight("NS (Nash Sutcliffe)");
+            MCParameters.coefficientsWeights[3] = GetWeight("log(NS) (log Nash Sutcliffe)");
+            MCParameters.coefficientsWeights[6] = GetWeight("AD (Absolute Difference)");
+            MCParameters.coefficientsWeights[7] = GetWeight("VR (Variance Ratio)");
+            MCParameters.coefficientsWeights[11] = GetWeight("KGE (Kling Gupta Efficiency)");
         }
 
-        public static void setCoefficientWeights()
+        /// <summary>
+        /// set coefficient weights for INCA-C classic
+        /// </summary>
+        static void SetINCA_CCoefficientWeights()
         {
-            //fix this later, currently placeholder code to add coefficeint weights
+            MCParameters.coefficientsWeights[1] = GetWeight("R2 (Pearson Correlation)");
+            MCParameters.coefficientsWeights[2] = GetWeight("NS (Nash Sutcliffe)");
+        }
+
+        /// <summary>
+        /// wrapper code to set coefficient weights for calculating model performance
+        /// </summary>
+        public static void SetCoefficientWeights()
+        {
+            //fix this later, currently placeholder code to add coefficient weights
             MCParameters.coefficientsWeights = new double[20];
             for (int i = 0; i < 20; i++)
                 MCParameters.coefficientsWeights[i] = 1.0;
@@ -421,58 +503,64 @@ public static void writePerformanceStatistics(string rowID, string statisticFile
                 case 1:  //PERSiST 1.4
                 case 8:  //PERSiST 1.6
                 case 10: //PERSiST 2.0
-                    setPERSiSTCoefficientWeights();
+                    SetPERSiSTCoefficientWeights();
                     break;
                 case 2: //INCA-C
-                    setINCA_CCoefficientWeights();
+                    SetINCA_CCoefficientWeights();
                     break;
                 case 3: //INCA-PECo
-                    setINCA_PEcoCoefficientWeights();
+                    SetINCA_PEcoCoefficientWeights();
                     break;
                 case 4: //INCA-P
-                    setINCA_PCoefficientWeights();
+                    SetINCA_PCoefficientWeights();
                     break;
                 case 9: //INCA(ON)THE
-                    setINCA_ONTHECoefficientWeights();
+                    SetINCA_ONTHECoefficientWeights();
                     break;
                 case 12: // INCA-N Classic
-                    setINCA_NCoefficientWeights();
+                    SetINCA_NCoefficientWeights();
                     break;
                 default:
                     break;
             }
         }
 
-        public static void writeCoefficientWeights()
+        /// <summary>
+        /// save coefficient weights to a file
+        /// </summary>
+        public static void WriteCoefficientWeights()
         {
             switch (MCParameters.model)
             {
                 case 1:  //PERSiST 1.4
                 case 8:  //PERSiST 1.6
                 case 10: //PERSiST 2.0
-                    writePERSiSTCoefficientWeights();
+                    WritePERSiSTCoefficientWeights();
                     break;
                 case 2:
-                    writeINCA_CCoefficientWeights();
+                    WriteINCA_CCoefficientWeights();
                     break;
                 case 3: //INCA-PEco
-                    writeINCA_PEcoCoefficientWeights();
+                    WriteINCA_PEcoCoefficientWeights();
                     break;
                 case 4: //INCA-P
-                    writeINCA_PCoefficientWeights();
+                    WriteINCA_PCoefficientWeights();
                     break;
                 case 9: //INCA(ON)THE
-                    writeINCA_ONTHECoefficientWeights();
+                    WriteINCA_ONTHECoefficientWeights();
                     break;
                 case 12:
-                    writeINCA_NCoefficientWeights();
+                    WriteINCA_NCoefficientWeights();
                     break;
                 default:
                     break;
             }
         }
 
-        static void writePERSiSTCoefficientWeights()
+        /// <summary>
+        /// save PERSiST coefficient weights to file
+        /// </summary>
+        static void WritePERSiSTCoefficientWeights()
         {
             //overwrite existing file
             using (StreamWriter cwf = new StreamWriter(MCParameters.coefficientsWeightFile,false))
@@ -485,7 +573,10 @@ public static void writePerformanceStatistics(string rowID, string statisticFile
             }
         }
 
-        static void writeINCA_PCoefficientWeights()
+        /// <summary>
+        /// save INCA-PECO coefficient weights to file
+        /// </summary>
+        static void WriteINCA_PCoefficientWeights()
         {
             //overwrite existing file
             using (StreamWriter cwf = new StreamWriter(MCParameters.coefficientsWeightFile, false))
@@ -496,18 +587,23 @@ public static void writePerformanceStatistics(string rowID, string statisticFile
             }
         }
 
-        static void writeINCA_NCoefficientWeights()
+        /// <summary>
+        /// save INCA-N classic coefficient weights to file
+        /// </summary>
+        static void WriteINCA_NCoefficientWeights()
         {
             //overwrite existing file
             using (StreamWriter cwf = new StreamWriter(MCParameters.coefficientsWeightFile, false))
             {
                 cwf.WriteLine("R2 (Pearson Correlation), {0}", MCParameters.coefficientsWeights[1]);
                 cwf.WriteLine("NS (Nash Sutcliffe), {0}", MCParameters.coefficientsWeights[2]);
-                cwf.WriteLine("VR (Variance Ratio), {0}", MCParameters.coefficientsWeights[5]);
             }
         }
 
-        static void writeINCA_CCoefficientWeights()
+        /// <summary>
+        /// write INCA-C (classic ?) coefficient weights to file
+        /// </summary>
+        static void WriteINCA_CCoefficientWeights()
         {
             //overwrite existing file
             using (StreamWriter cwf = new StreamWriter(MCParameters.coefficientsWeightFile, false))
@@ -517,7 +613,10 @@ public static void writePerformanceStatistics(string rowID, string statisticFile
                 cwf.WriteLine("VR (Variance Ratio), {0}", MCParameters.coefficientsWeights[5]);
             }
         }
-        static void writeINCA_ONTHECoefficientWeights()
+        /// <summary>
+        /// write INCA ON THE performance statistic weights to file
+        /// </summary>
+        static void WriteINCA_ONTHECoefficientWeights()
         {
             //overwrite existing file
             using (StreamWriter cwf = new StreamWriter(MCParameters.coefficientsWeightFile, false))
@@ -533,7 +632,10 @@ public static void writePerformanceStatistics(string rowID, string statisticFile
 
 
         //will need some editing
-        static void writeINCA_PEcoCoefficientWeights()
+        /// <summary>
+        /// first try at writing INCA-PEco coefficients to file
+        /// </summary>
+        static void WriteINCA_PEcoCoefficientWeights()
         {
             //overwrite existing file
             using (StreamWriter cwf = new StreamWriter(MCParameters.coefficientsWeightFile, false))
@@ -550,6 +652,7 @@ public static void writePerformanceStatistics(string rowID, string statisticFile
             }
         }
 
+        // this needs to be given some thought and fixed
         static void _setSeriesWeights(string fileName)
         {
             ArrayList l = new ArrayList();
@@ -577,7 +680,11 @@ public static void writePerformanceStatistics(string rowID, string statisticFile
             }
         }
 
-        public static int setSeriesWeights()
+        /// <summary>
+        /// wrapper code to set weights for individual parameters
+        /// </summary>
+        /// <returns></returns>
+        public static int SetSeriesWeights()
         {
             Console.WriteLine();
             Console.WriteLine("*********************************");
@@ -591,7 +698,10 @@ public static void writePerformanceStatistics(string rowID, string statisticFile
             catch { return -1; }
         }
 
-        public static void setNumberOfContaminants()
+        /// <summary>
+        /// get the number of substances to use in an INCA-Contaminants simulation
+        /// </summary>
+        public static void SetNumberOfContaminants()
         {
             string r;
             int s;
@@ -610,7 +720,10 @@ public static void writePerformanceStatistics(string rowID, string statisticFile
             }
         }
 
-        public static void setLandUseAndReaches()
+        /// <summary>
+        /// get the number of land use types and reaches to use in a model run
+        /// </summary>
+        public static void SetLandUseAndReaches()
         {
             string r;
             int s;
@@ -719,19 +832,19 @@ public static void writePerformanceStatistics(string rowID, string statisticFile
 
         public static void addAvailableModels()
         {
-            availableModels = new List<modelStruct>();
-            availableModels.Add(new modelStruct(1, "PERSiST_1.4", "1.4.x"));
-            availableModels.Add(new modelStruct(2, "INCA-C", "1.7"));
-            availableModels.Add(new modelStruct(3, "INCA-PEco", "All"));
-            availableModels.Add(new modelStruct(4, "INCA-P", "1.4.x"));
-            availableModels.Add(new modelStruct(5, "INCA-Contaminants (Including MP)", "All"));
-            availableModels.Add(new modelStruct(6, "INCA-Path", "1.0"));
-            availableModels.Add(new modelStruct(7, "INCA-Hg", "1.4"));
-            availableModels.Add(new modelStruct(8, "PERSiST_1.6", "1.6.x"));
-            availableModels.Add(new modelStruct(9, "INCA(ON)THE", "1.0"));
-            availableModels.Add(new modelStruct(10, "PERSiST_2", "2.0"));
-            availableModels.Add(new modelStruct(11, "INCA_C_v2", "2.0"));
-            availableModels.Add(new modelStruct(12, "INCA_N_v1", "1.0"));
+            availableModels = new List<ModelStruct>();
+            availableModels.Add(new ModelStruct(1, "PERSiST_1.4", "1.4.x"));
+            availableModels.Add(new ModelStruct(2, "INCA-C", "1.7"));
+            availableModels.Add(new ModelStruct(3, "INCA-PEco", "All"));
+            availableModels.Add(new ModelStruct(4, "INCA-P", "1.4.x"));
+            availableModels.Add(new ModelStruct(5, "INCA-Contaminants (Including MP)", "All"));
+            availableModels.Add(new ModelStruct(6, "INCA-Path", "1.0"));
+            availableModels.Add(new ModelStruct(7, "INCA-Hg", "1.4"));
+            availableModels.Add(new ModelStruct(8, "PERSiST_1.6", "1.6.x"));
+            availableModels.Add(new ModelStruct(9, "INCA(ON)THE", "1.0"));
+            availableModels.Add(new ModelStruct(10, "PERSiST_2", "2.0"));
+            availableModels.Add(new ModelStruct(11, "INCA_C_v2", "2.0"));
+            availableModels.Add(new ModelStruct(12, "INCA_N_v1", "1.0"));
         }
     }
 }

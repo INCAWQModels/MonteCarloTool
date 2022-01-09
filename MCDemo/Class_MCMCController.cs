@@ -52,8 +52,8 @@ namespace MC
             parameterSet m = new parameterSet(returnParFileName(), MCParameters.minParFile(), MCParameters.maxParFile());
 
             //use the manual calibration as a starting point
-            InteractWithModel.runModel(commandLine);
-            m.modelPerformance = InteractWithModel.evaluatePerformanceStatistics();
+            InteractWithModel.RunModel(commandLine);
+            m.modelPerformance = InteractWithModel.EvaluatePerformanceStatistics();
             GLUEAccounting.SaveGLUEResults(m);
 
             if(double.IsNaN(m.modelPerformance))
@@ -78,8 +78,8 @@ namespace MC
                     Console.WriteLine("******** Unable to find parameter file *****************");
                     File.Copy(MCParameters.bestParSetFileName, MCParameters.MCParFile,true);
                 }       
-                InteractWithModel.runModel(commandLine);
-                m.modelPerformance = InteractWithModel.evaluatePerformanceStatistics();
+                InteractWithModel.RunModel(commandLine);
+                m.modelPerformance = InteractWithModel.EvaluatePerformanceStatistics();
                 //GLUEAccounting.saveGLUEResults(m);
                 Console.WriteLine("\t*** Comparison -Current: {0:F4} Best : {1:F4}  Test: {2:F4} {3:F4}", m.modelPerformance, bestModelPerformance,
                         bestModelPerformance / m.modelPerformance, testVal);
@@ -124,8 +124,8 @@ namespace MC
                             iterations++;
                             m.randomizeValues();
                             m.write(MCParameters.MCParFile);
-                            InteractWithModel.runModel(commandLine);
-                            m.modelPerformance = InteractWithModel.evaluatePerformanceStatistics();
+                            InteractWithModel.RunModel(commandLine);
+                            m.modelPerformance = InteractWithModel.EvaluatePerformanceStatistics();
                             if (MCParameters.model == 2)
                             {
                                 GLUEAccounting.SaveGLUEResults(m);
@@ -176,9 +176,9 @@ namespace MC
                         MCMC.unsuccessfulJumps = 0;
                         m = new parameterSet(MCParameters.MCParFile, MCParameters.minParFile(), MCParameters.maxParFile());
                         m.write(MCParameters.MCParFile);
-                        InteractWithModel.runModel(commandLine);
+                        InteractWithModel.RunModel(commandLine);
                                                
-                        testModelPerformance = InteractWithModel.evaluatePerformanceStatistics();
+                        testModelPerformance = InteractWithModel.EvaluatePerformanceStatistics();
                     }
                     m.MCMC_Sample(updateType.add, MCMC);
                     m.write(MCParameters.MCParFile );
@@ -187,9 +187,9 @@ namespace MC
                         File.Copy(MCParameters.bestParSetFileName, MCParameters.MCParFile,true);
                     }
 
-                    InteractWithModel.runModel(commandLine);
+                    InteractWithModel.RunModel(commandLine);
                     double lastModelPerformance = m.modelPerformance;
-                    m.modelPerformance = InteractWithModel.evaluatePerformanceStatistics();
+                    m.modelPerformance = InteractWithModel.EvaluatePerformanceStatistics();
                 
 
                     //needed for traditional Metropolis Hastings reversible jump
