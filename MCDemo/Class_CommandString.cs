@@ -207,7 +207,7 @@ namespace MC
                     DoINCAONTHEStuff();
                     break;
                 case 12: 
-                    modelExecutable = "inca_n_cmd.exe -writecoefficients ";
+                    modelExecutable = "inca_n_cmd.exe -writecoefficients -precip HER ";
                     DoINCANStuff();
                     break;
                 default:

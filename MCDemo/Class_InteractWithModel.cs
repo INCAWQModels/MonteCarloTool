@@ -324,12 +324,42 @@ namespace MC
                                     performanceStatistic += MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[7] * ReturnVR(values[7]);
                                     break;
                                 case 10:    //running PERSiST 2.0
+                                    double r, alpha, beta, tmp;
+                                    bool calculateKGE = true;
                                     performanceStatistic += MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[1] * ReturnR2(values[1]);
                                     performanceStatistic += MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[2] * ReturnNS(values[2]);
                                     performanceStatistic += MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[3] * ReturnLogNS(values[3]);
+                                    performanceStatistic += MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[6] * ReturnAD(values[6]);
                                     performanceStatistic += MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[7] * ReturnVR(values[7]);
-                                    //need to check position of KGE
-                                    //performanceStatistic += MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[11] * returnKGE(values[11]);
+                                    //
+                                    //calculate KGE from R2, VR and AD
+                                    //KGE = 1-sqrt((r-1)^2 + (AD-1)^2  + (VR-1)^2)
+                                    //
+                                    r = Convert.ToDouble(values[1]);
+                                    // only continue if r2 > 0
+                                    if (r > 0)
+                                    {
+                                        r = Math.Sqrt(r);
+                                        alpha = Convert.ToDouble(values[6]);
+                                        beta = Convert.ToDouble(values[7]);
+                                        //  Check that the weights for R2, AD and VR are all 1 and that weights for NS and logNS are 0
+                                        if (Convert.ToInt32(MCParameters.coefficientsWeights[1]) != 1 ||
+                                            Convert.ToInt32(MCParameters.coefficientsWeights[2]) != 0 ||
+                                            Convert.ToInt32(MCParameters.coefficientsWeights[3]) != 0 ||
+                                            Convert.ToInt32(MCParameters.coefficientsWeights[6]) != 1 ||
+                                            Convert.ToInt32(MCParameters.coefficientsWeights[7]) != 1)
+                                        {
+                                            calculateKGE = false;
+                                            if(calculateKGE) 
+                                            {
+                                                tmp = (r - 1) * (r - 1);
+                                                tmp += (alpha - 1) * (alpha - 1);
+                                                tmp += (beta - 1) * (beta - 1);
+                                                tmp = Math.Sqrt(tmp);
+                                                performanceStatistic = 1 - tmp;
+                                            }
+                                        }
+                                    }
                                     break;
                                 case 2:  // running INCA-C
                                 case 11: //running INCA-C
@@ -337,16 +367,19 @@ namespace MC
                                     performanceStatistic += MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[2] * ReturnNS(values[2]);
                                     break;
                                 case 3: // running INCA-PECo
-                                    //needs further refinement
+                                    //added Kling Gupta
                                     performanceStatistic += MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[1] * ReturnR2(values[1]);
                                     performanceStatistic += MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[2] * ReturnNS(values[2]);
-                                    performanceStatistic += MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[3] * ReturnRMSE(values[3]);
-                                    performanceStatistic += MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[4] * ReturnRE(values[4]);
-                                    performanceStatistic += MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[5] * ReturnVR(values[5]);
-                                    performanceStatistic += MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[6] * ReturnCat(values[6]);
-                                    performanceStatistic += MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[7] * ReturnCat(values[7]);
-                                    performanceStatistic += MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[8] * ReturnCat(values[8]);
-                                    performanceStatistic += MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[9] * ReturnCat(values[9]);
+                                    performanceStatistic += MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[3] * ReturnLogNS(values[3]);
+                                    performanceStatistic += MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[4] * ReturnRMSE(values[4]);
+                                    performanceStatistic += MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[5] * ReturnRE(values[5]);
+                                    performanceStatistic += MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[6] * ReturnAD(values[6]);
+                                    performanceStatistic += MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[7] * ReturnVR(values[7]);
+                                    performanceStatistic += MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[11] * ReturnKGE(values[11]);
+                                    performanceStatistic += MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[12] * ReturnCat(values[12]);
+                                    performanceStatistic += MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[13] * ReturnCat(values[13]);
+                                    performanceStatistic += MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[14] * ReturnCat(values[14]);
+                                    performanceStatistic += MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[15] * ReturnCat(values[15]);
 
                                     //Console.WriteLine("i {0} Performance statistic {1:F} Series weight {2} Coefficient Weight {3} NS {4:F}", i,performanceStatistic, MCParameters.seriesWeights[i], MCParameters.coefficientsWeights[2], returnNS(values[2]));
                                     break;
@@ -455,13 +488,16 @@ namespace MC
         {
             MCParameters.coefficientsWeights[1] = GetWeight("R2 (Pearson Correlation)");
             MCParameters.coefficientsWeights[2] = GetWeight("NS (Nash Sutcliffe)");
-            MCParameters.coefficientsWeights[3] = GetWeight("RMSE (Root mean square error)");
-            MCParameters.coefficientsWeights[4] = GetWeight("RE (Relative error)");
-            MCParameters.coefficientsWeights[5] = GetWeight("VR (Variance Ratio)");
-            MCParameters.coefficientsWeights[7] = GetWeight("CatB");
-            MCParameters.coefficientsWeights[8] = GetWeight("CatC");
-            MCParameters.coefficientsWeights[9] = GetWeight("CatCa");
-            MCParameters.coefficientsWeights[10] = GetWeight("CatCb");
+            MCParameters.coefficientsWeights[3] = GetWeight("log(NS) (log Nash Sutcliffe)");
+            MCParameters.coefficientsWeights[4] = GetWeight("RMSE (Root mean square error)");
+            MCParameters.coefficientsWeights[5] = GetWeight("RE (Relative error)");
+            MCParameters.coefficientsWeights[6] = GetWeight("AD (Absolute Difference)");
+            MCParameters.coefficientsWeights[7] = GetWeight("VR (Variance Ratio)");
+            MCParameters.coefficientsWeights[11] = GetWeight("KGE (Kling Gupta Efficiency)");
+            MCParameters.coefficientsWeights[12] = GetWeight("CatB");
+            MCParameters.coefficientsWeights[13] = GetWeight("CatC");
+            MCParameters.coefficientsWeights[14] = GetWeight("CatCa");
+            MCParameters.coefficientsWeights[15] = GetWeight("CatCb");
         }
 
         /// <summary>

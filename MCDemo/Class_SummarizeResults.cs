@@ -119,8 +119,8 @@ namespace MC
             //write the coefficients for each model run
             rd.writeCoefficients();
 
-            //write the results
-            rd.writeResults();
+            //write the results (at a later date)
+            //rd.writeResults();
         }
 
         static void getNumberOfRunsToOrganize()

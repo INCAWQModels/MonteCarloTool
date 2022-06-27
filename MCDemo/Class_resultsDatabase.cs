@@ -389,9 +389,11 @@ namespace MC
                 "Parameter  TEXT(255)," +
                 "R2         DOUBLE," +
                 "NS         DOUBLE," +
+                "logNS      DOUBLE, " +
                 "RMSE       DOUBLE," +
-                "RE         DOUBLE," +
-                "VR         DOUBLE,"+
+                "AD         DOUBLE," +
+                "VR         DOUBLE, "+
+                "KGE        DOUBLE, " +
                 "CAT_B      DOUBLE,"+
                 "CAT_C      DOUBLE,"+   
                 "CAT_CA     DOUBLE,"+
@@ -1134,7 +1136,10 @@ namespace MC
                     while ((line = sr.ReadLine()) != null)
                         {
                         string[] fields = line.Split(MCParameters.separatorChar);
-                        if ((fields[1]).Equals("0"))
+                        // get reach names, this will happen when row number is a multiple of 16
+                        //right now exceptions are not caught
+                        int fieldNumber = Int32.Parse(fields[1]);
+                        if ((fieldNumber % 16) == 0)
                         {
                             Console.WriteLine(line);
                             reachName = fields[2];
@@ -1143,21 +1148,23 @@ namespace MC
                         {
                             string SQLString;
                             
-                            SQLString = "INSERT INTO Coefficients (Run, RowNumber, Reach, Parameter, R2, NS, RMSE, RE, VR, CAT_B, CAT_C, Cat_Ca, Cat_Cb, DateStamp) VALUES (" +
+                            SQLString = "INSERT INTO Coefficients (Run, RowNumber, Reach, Parameter, R2, NS, logNS, RMSE, AD, VR, KGE, CAT_B, CAT_C, Cat_Ca, Cat_Cb, DateStamp) VALUES (" +
                                             fields[0] + ", " +
                                             fields[1] + ",'" +
                                             reachName + "', '" +
-                                            fields[2] + "', " +      //parameter name
-                                            fields[3] + "," +        //R2
-                                            fields[4] + ", " +      //Nash Sutcliffe
-                                            fields[5] + ", " +       //RMSE
-                                            fields[6] + ", " +      //RE
-                                            fields[7] + ", " +      //VR
-                                            fields[8] + ", " +      //CAT_B
-                                            fields[9] + ", " +      //CAT_C
-                                            fields[10] + ", " +      //CAT_Ca
-                                            fields[11] + ", " +     //CAT_Cb
-                                            "Date())";              //Date 
+                                            fields[2] + "', " +         //parameter name
+                                            fields[3] + "," +           //R2
+                                            fields[4] + ", " +          //Nash Sutcliffe
+                                            fields[5] + ", " +          // log(NS)
+                                            fields[6] + ", " +          //RMSE
+                                            fields[8] + ", " +          //AD
+                                            fields[9] + ", " +          //VR
+                                            fields[13]  + ", " +        //KGE
+                                            fields[14] + ", " +          //CAT_B
+                                            fields[15] + ", " +          //CAT_C
+                                            fields[16] + ", " +         //CAT_Ca
+                                            fields[17] + ", " +         //CAT_Cb
+                                            "Date())";                  //Date 
                                         using (StreamWriter SQLCheck = new StreamWriter("SQLCheck.txt"))
                                         {
                                             SQLCheck.WriteLine(SQLString);
