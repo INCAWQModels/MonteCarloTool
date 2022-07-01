@@ -315,22 +315,22 @@ namespace MC
                         {
                             switch (MCParameters.model)
                             {
+                                //should be able t ocalculate KGE for any version of PERSiST
                                 case 1:     //running PERSiST 1.4
                                 case 8:     //running PERSiST 1.6
-                                    performanceStatistic += MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[1] * ReturnR2(values[1]);
-                                    performanceStatistic += MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[2] * ReturnNS(values[2]);
-                                    performanceStatistic += MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[3] * ReturnLogNS(values[3]);
-                                    performanceStatistic += MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[6] * ReturnAD(values[6]);
-                                    performanceStatistic += MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[7] * ReturnVR(values[7]);
-                                    break;
+                                    //performanceStatistic += MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[1] * ReturnR2(values[1]);
+                                    //performanceStatistic += MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[2] * ReturnNS(values[2]);
+                                    //performanceStatistic += MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[3] * ReturnLogNS(values[3]);
+                                    //performanceStatistic += MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[6] * ReturnAD(values[6]);
+                                    //performanceStatistic += MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[7] * ReturnVR(values[7]);
+                                    //break;
                                 case 10:    //running PERSiST 2.0
-                                    double r, alpha, beta, tmp;
-                                    bool calculateKGE = true;
-                                    performanceStatistic += MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[1] * ReturnR2(values[1]);
-                                    performanceStatistic += MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[2] * ReturnNS(values[2]);
-                                    performanceStatistic += MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[3] * ReturnLogNS(values[3]);
-                                    performanceStatistic += MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[6] * ReturnAD(values[6]);
-                                    performanceStatistic += MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[7] * ReturnVR(values[7]);
+                                    double r, alpha, beta, tmp, tmpPs;
+                                    tmpPs = MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[1] * ReturnR2(values[1]);
+                                    tmpPs += MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[2] * ReturnNS(values[2]);
+                                    tmpPs += MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[3] * ReturnLogNS(values[3]);
+                                    tmpPs += MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[6] * ReturnAD(values[6]);
+                                    tmpPs += MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[7] * ReturnVR(values[7]);
                                     //
                                     //calculate KGE from R2, VR and AD
                                     //KGE = 1-sqrt((r-1)^2 + (AD-1)^2  + (VR-1)^2)
@@ -339,9 +339,6 @@ namespace MC
                                     // only continue if r2 > 0
                                     if (r > 0)
                                     {
-                                        r = Math.Sqrt(r);
-                                        alpha = Convert.ToDouble(values[6]);
-                                        beta = Convert.ToDouble(values[7]);
                                         //  Check that the weights for R2, AD and VR are all 1 and that weights for NS and logNS are 0
                                         if (Convert.ToInt32(MCParameters.coefficientsWeights[1]) != 1 ||
                                             Convert.ToInt32(MCParameters.coefficientsWeights[2]) != 0 ||
@@ -349,15 +346,19 @@ namespace MC
                                             Convert.ToInt32(MCParameters.coefficientsWeights[6]) != 1 ||
                                             Convert.ToInt32(MCParameters.coefficientsWeights[7]) != 1)
                                         {
-                                            calculateKGE = false;
-                                            if(calculateKGE) 
-                                            {
-                                                tmp = (r - 1) * (r - 1);
-                                                tmp += (alpha - 1) * (alpha - 1);
-                                                tmp += (beta - 1) * (beta - 1);
-                                                tmp = Math.Sqrt(tmp);
-                                                performanceStatistic = 1 - tmp;
-                                            }
+                                            performanceStatistic += tmpPs;
+                                        }
+                                        else
+                                        {
+                                            r = Math.Sqrt(r);
+                                            alpha = Convert.ToDouble(values[6]);    //AD
+                                            beta = Convert.ToDouble(values[7]);     //VR
+                                            tmp = (r - 1) * (r - 1);
+                                            tmp += (alpha - 1) * (alpha - 1);
+                                            tmp += (beta - 1) * (beta - 1);
+                                            tmp = Math.Sqrt(tmp);
+                                            performanceStatistic -= tmp;
+                                            //Console.WriteLine("Calculating KGE : {0} {1} {2} {3} {4}", performanceStatistic,tmp, r,alpha,beta);
                                         }
                                     }
                                     break;
