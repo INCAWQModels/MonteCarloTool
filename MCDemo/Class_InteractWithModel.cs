@@ -325,7 +325,7 @@ namespace MC
                                     //performanceStatistic += MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[7] * ReturnVR(values[7]);
                                     //break;
                                 case 10:    //running PERSiST 2.0
-                                    double r, alpha, beta, tmp, tmpPs;
+                                    double r, alphaMinus1, beta, tmp, tmpPs;
                                     tmpPs = MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[1] * ReturnR2(values[1]);
                                     tmpPs += MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[2] * ReturnNS(values[2]);
                                     tmpPs += MCParameters.seriesWeights[i] * MCParameters.coefficientsWeights[3] * ReturnLogNS(values[3]);
@@ -351,10 +351,10 @@ namespace MC
                                         else
                                         {
                                             r = Math.Sqrt(r);
-                                            alpha = Convert.ToDouble(values[6]);    //AD
+                                            alphaMinus1 = Convert.ToDouble(values[6]);    //AD - same as (1-alpha)
                                             beta = Convert.ToDouble(values[7]);     //VR
                                             tmp = (r - 1) * (r - 1);
-                                            tmp += (alpha - 1) * (alpha - 1);
+                                            tmp += alphaMinus1 * alphaMinus1;
                                             tmp += (beta - 1) * (beta - 1);
                                             tmp = Math.Sqrt(tmp);
                                             performanceStatistic -= tmp;

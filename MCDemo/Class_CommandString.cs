@@ -86,7 +86,8 @@ namespace MC
         /// </summary>
         private void DoINCANStuff()
         {
-            //may not need any additional command line arguments
+            //add deposition time series
+            commandArguments.Add(new CommandParameter("Deposition Time Series File", "-dep"));
         }
 
         /// <summary>
@@ -102,7 +103,8 @@ namespace MC
         /// </summary>
         private void DoINCAONTHEStuff()
         {
-            //may not need any additional command line arguments
+            //add deposition time series
+            commandArguments.Add(new CommandParameter("Deposition Time Series File", "-dep"));
         }
         /// <summary>
         /// add command line parameters specific to INCA-PEco
