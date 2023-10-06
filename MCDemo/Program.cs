@@ -47,7 +47,7 @@ namespace MC
             }
 
             //check that it will be possible to write to a database
-            resultsDatabase MCResults = new resultsDatabase();
+            ResultsDatabase MCResults = new ResultsDatabase();
 
             MCResults.cleanUp();
             
@@ -106,7 +106,7 @@ namespace MC
             MCResults.createParameterSensitivitySummaryTable();
             MCResults.writeCoefficientWeights();
 
-            SummarizeResults.write(runString);
+            SummarizeResults.write(runString, MCResults);
             SummarizeResults.noteSuccessfulCompletion();
             Console.ReadLine();
         }

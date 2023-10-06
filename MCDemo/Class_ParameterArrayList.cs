@@ -372,6 +372,134 @@ namespace MC
         }
     }
 
+    class INCA_C_2_ParameterArrayList : ParameterArrayList
+    {
+        public INCA_C_2_ParameterArrayList(int landUseClasses, int numberOfReaches)
+        {
+            int i, j, m;
+            m = 0;
+            header = new StringBuilder();
+            header.Append((m++).ToString()).Append(MCParameters.separatorChar).Append("ParameterSetName").Append("\n");
+            for (j = 0; j < landUseClasses; j++) header.Append((m++).ToString()).Append(MCParameters.separatorChar).Append("LandCoverAbbreviation(").Append(j.ToString()).Append(")").Append("\n");
+            for (j = 0; j < landUseClasses; j++) header.Append((m++).ToString()).Append(MCParameters.separatorChar).Append("LandCoverName(").Append(j.ToString()).Append(")").Append("\n");
+            for (j = 0; j < landUseClasses; j++) header.Append((m++).ToString()).Append(MCParameters.separatorChar).Append("DirectRunoffInitialFlow(").Append(j.ToString()).Append(")").Append("\n");
+            for (j = 0; j < landUseClasses; j++) header.Append((m++).ToString()).Append(MCParameters.separatorChar).Append("OrganicLayerInitialFlow(").Append(j.ToString()).Append(")").Append("\n");
+            for (j = 0; j < landUseClasses; j++) header.Append((m++).ToString()).Append(MCParameters.separatorChar).Append("MineralLayerInitialFlow(").Append(j.ToString()).Append(")").Append("\n");
+            for (j = 0; j < landUseClasses; j++) header.Append((m++).ToString()).Append(MCParameters.separatorChar).Append("DirectRunoffInitialPDC(").Append(j.ToString()).Append(")").Append("\n");
+            for (j = 0; j < landUseClasses; j++) header.Append((m++).ToString()).Append(MCParameters.separatorChar).Append("OrganicLayerInitialSOC(").Append(j.ToString()).Append(")").Append("\n");
+            for (j = 0; j < landUseClasses; j++) header.Append((m++).ToString()).Append(MCParameters.separatorChar).Append("OrganicLayerInitialDOC(").Append(j.ToString()).Append(")").Append("\n");
+            for (j = 0; j < landUseClasses; j++) header.Append((m++).ToString()).Append(MCParameters.separatorChar).Append("OrganicLayerInitialDIC(").Append(j.ToString()).Append(")").Append("\n");
+            for (j = 0; j < landUseClasses; j++) header.Append((m++).ToString()).Append(MCParameters.separatorChar).Append("MineralLayerInitialSOC(").Append(j.ToString()).Append(")").Append("\n");
+            for (j = 0; j < landUseClasses; j++) header.Append((m++).ToString()).Append(MCParameters.separatorChar).Append("MineralLayerInitialDOC(").Append(j.ToString()).Append(")").Append("\n");
+            for (j = 0; j < landUseClasses; j++) header.Append((m++).ToString()).Append(MCParameters.separatorChar).Append("MineralLayerInitialDIC(").Append(j.ToString()).Append(")").Append("\n");
+            for (j = 0; j < landUseClasses; j++) header.Append((m++).ToString()).Append(MCParameters.separatorChar).Append("DirectRunoffInitialDOC(").Append(j.ToString()).Append(")").Append("\n");
+            for (j = 0; j < landUseClasses; j++) header.Append((m++).ToString()).Append(MCParameters.separatorChar).Append("InitialSoilTemperature(").Append(j.ToString()).Append(")").Append("\n");
+            header.Append((m++).ToString()).Append(MCParameters.separatorChar).Append("startDate").Append("\n");
+            header.Append((m++).ToString()).Append(MCParameters.separatorChar).Append("numberOfDays").Append("\n");
+            for (j = 0; j < landUseClasses; j++) header.Append((m++).ToString()).Append(MCParameters.separatorChar).Append("OrganicLayerPDCToSOC(").Append(j.ToString()).Append(")").Append("\n");
+            for (j = 0; j < landUseClasses; j++) header.Append((m++).ToString()).Append(MCParameters.separatorChar).Append("OrganicLayerPDCToDIC(").Append(j.ToString()).Append(")").Append("\n");
+            for (j = 0; j < landUseClasses; j++) header.Append((m++).ToString()).Append(MCParameters.separatorChar).Append("OrganicLayerPDCToDOC(").Append(j.ToString()).Append(")").Append("\n");
+            for (j = 0; j < landUseClasses; j++) header.Append((m++).ToString()).Append(MCParameters.separatorChar).Append("OrganicLayerSOCToDOC(").Append(j.ToString()).Append(")").Append("\n");
+            for (j = 0; j < landUseClasses; j++) header.Append((m++).ToString()).Append(MCParameters.separatorChar).Append("OrganicLayerSOCToDIC(").Append(j.ToString()).Append(")").Append("\n");
+            for (j = 0; j < landUseClasses; j++) header.Append((m++).ToString()).Append(MCParameters.separatorChar).Append("OrganicLayerDOCToSOC(").Append(j.ToString()).Append(")").Append("\n");
+            for (j = 0; j < landUseClasses; j++) header.Append((m++).ToString()).Append(MCParameters.separatorChar).Append("OrganicLayerDOCToDIC(").Append(j.ToString()).Append(")").Append("\n");
+            for (j = 0; j < landUseClasses; j++) header.Append((m++).ToString()).Append(MCParameters.separatorChar).Append("MineralLayerSOCToDOC(").Append(j.ToString()).Append(")").Append("\n");
+            for (j = 0; j < landUseClasses; j++) header.Append((m++).ToString()).Append(MCParameters.separatorChar).Append("MineralLayerSOCToDIC(").Append(j.ToString()).Append(")").Append("\n");
+            for (j = 0; j < landUseClasses; j++) header.Append((m++).ToString()).Append(MCParameters.separatorChar).Append("MineralLayerDOCToSOC(").Append(j.ToString()).Append(")").Append("\n");
+            for (j = 0; j < landUseClasses; j++) header.Append((m++).ToString()).Append(MCParameters.separatorChar).Append("MineralLayerDOCToDIC(").Append(j.ToString()).Append(")").Append("\n");
+            for (j = 0; j < landUseClasses; j++) header.Append((m++).ToString()).Append(MCParameters.separatorChar).Append("OrganicLayerCO2MassTransferVelocity(").Append(j.ToString()).Append(")").Append("\n");
+            for (j = 0; j < landUseClasses; j++) header.Append((m++).ToString()).Append(MCParameters.separatorChar).Append("DailyPDCInputToOrganicLayer(").Append(j.ToString()).Append(")").Append("\n");
+            for (j = 0; j < landUseClasses; j++) header.Append((m++).ToString()).Append(MCParameters.separatorChar).Append("FertilizerAdditionStartDay(").Append(j.ToString()).Append(")").Append("\n");
+            for (j = 0; j < landUseClasses; j++) header.Append((m++).ToString()).Append(MCParameters.separatorChar).Append("FertilizerAdditionDuration(").Append(j.ToString()).Append(")").Append("\n");
+            for (j = 0; j < landUseClasses; j++) header.Append((m++).ToString()).Append(MCParameters.separatorChar).Append("FertilizerAdditionAmount(").Append(j.ToString()).Append(")").Append("\n");
+            for (j = 0; j < landUseClasses; j++) header.Append((m++).ToString()).Append(MCParameters.separatorChar).Append("MaximumSoilMoistureDeficit(").Append(j.ToString()).Append(")").Append("\n");
+            for (j = 0; j < landUseClasses; j++) header.Append((m++).ToString()).Append(MCParameters.separatorChar).Append("SoilTDiffBnSummerAndWinterMax(").Append(j.ToString()).Append(")").Append("\n");
+            for (j = 0; j < landUseClasses; j++) header.Append((m++).ToString()).Append(MCParameters.separatorChar).Append("SnowDepthFactor(").Append(j.ToString()).Append(")").Append("\n");
+            for (j = 0; j < landUseClasses; j++) header.Append((m++).ToString()).Append(MCParameters.separatorChar).Append("COUP_10DegreeResponse(").Append(j.ToString()).Append(")").Append("\n");
+            for (j = 0; j < landUseClasses; j++) header.Append((m++).ToString()).Append(MCParameters.separatorChar).Append("COUP_BaseT(").Append(j.ToString()).Append(")").Append("\n");
+            for (j = 0; j < landUseClasses; j++) header.Append((m++).ToString()).Append(MCParameters.separatorChar).Append("SnowPackInitialDepth(").Append(j.ToString()).Append(")").Append("\n");
+            for (j = 0; j < landUseClasses; j++) header.Append((m++).ToString()).Append(MCParameters.separatorChar).Append("SnowPackDegreeDayMeltFactor(").Append(j.ToString()).Append(")").Append("\n");
+            for (j = 0; j < landUseClasses; j++) header.Append((m++).ToString()).Append(MCParameters.separatorChar).Append("SnowPackWaterEquivalent(").Append(j.ToString()).Append(")").Append("\n");
+            for (j = 0; j < landUseClasses; j++) header.Append((m++).ToString()).Append(MCParameters.separatorChar).Append("SoilTThermalConductivity(").Append(j.ToString()).Append(")").Append("\n");
+            for (j = 0; j < landUseClasses; j++) header.Append((m++).ToString()).Append(MCParameters.separatorChar).Append("SoilTSpecificHeatCapacity(").Append(j.ToString()).Append(")").Append("\n");
+            for (j = 0; j < landUseClasses; j++) header.Append((m++).ToString()).Append(MCParameters.separatorChar).Append("MinimumOrganicLayerFlow(").Append(j.ToString()).Append(")").Append("\n");
+            for (j = 0; j < landUseClasses; j++) header.Append((m++).ToString()).Append(MCParameters.separatorChar).Append("MinimumMineralLayerFlow(").Append(j.ToString()).Append(")").Append("\n");
+            for (j = 0; j < landUseClasses; j++) header.Append((m++).ToString()).Append(MCParameters.separatorChar).Append("OrganicLayerMaxDIC(").Append(j.ToString()).Append(")").Append("\n");
+            for (j = 0; j < landUseClasses; j++) header.Append((m++).ToString()).Append(MCParameters.separatorChar).Append("MineralLayerMaxDIC(").Append(j.ToString()).Append(")").Append("\n");
+            for (j = 0; j < landUseClasses; j++) header.Append((m++).ToString()).Append(MCParameters.separatorChar).Append("MineralLayerCO2MassTransferVelocity(").Append(j.ToString()).Append(")").Append("\n");
+            for (j = 0; j < landUseClasses; j++) header.Append((m++).ToString()).Append(MCParameters.separatorChar).Append("OrganicLayerReturnTime(").Append(j.ToString()).Append(")").Append("\n");
+            for (j = 0; j < landUseClasses; j++) header.Append((m++).ToString()).Append(MCParameters.separatorChar).Append("OrganicLayerEnzymaticLatchRate(").Append(j.ToString()).Append(")").Append("\n");
+            for (j = 0; j < landUseClasses; j++) header.Append((m++).ToString()).Append(MCParameters.separatorChar).Append("OrganicLayerCriticalSMD(").Append(j.ToString()).Append(")").Append("\n");
+            for (j = 0; j < landUseClasses; j++) header.Append((m++).ToString()).Append(MCParameters.separatorChar).Append("MineralLayerReturnTime(").Append(j.ToString()).Append(")").Append("\n");
+            for (j = 0; j < landUseClasses; j++) header.Append((m++).ToString()).Append(MCParameters.separatorChar).Append("MineralLayerEnzymaticLatchRate(").Append(j.ToString()).Append(")").Append("\n");
+            for (j = 0; j < landUseClasses; j++) header.Append((m++).ToString()).Append(MCParameters.separatorChar).Append("MineralLayerCriticalSMD(").Append(j.ToString()).Append(")").Append("\n");
+            for (j = 0; j < landUseClasses; j++) header.Append((m++).ToString()).Append(MCParameters.separatorChar).Append("OrganicLayerB1(").Append(j.ToString()).Append(")").Append("\n");
+            for (j = 0; j < landUseClasses; j++) header.Append((m++).ToString()).Append(MCParameters.separatorChar).Append("OrganicLayerB2(").Append(j.ToString()).Append(")").Append("\n");
+            for (j = 0; j < landUseClasses; j++) header.Append((m++).ToString()).Append(MCParameters.separatorChar).Append("MineralLayerB1(").Append(j.ToString()).Append(")").Append("\n");
+            for (j = 0; j < landUseClasses; j++) header.Append((m++).ToString()).Append(MCParameters.separatorChar).Append("MineralLayerB2(").Append(j.ToString()).Append(")").Append("\n");
+            for (j = 0; j < landUseClasses; j++) header.Append((m++).ToString()).Append(MCParameters.separatorChar).Append("ZeroRateDepth(").Append(j.ToString()).Append(")").Append("\n");
+            for (j = 0; j < landUseClasses; j++) header.Append((m++).ToString()).Append(MCParameters.separatorChar).Append("MaxRateDepth(").Append(j.ToString()).Append(")").Append("\n");
+            for (j = 0; j < landUseClasses; j++) header.Append((m++).ToString()).Append(MCParameters.separatorChar).Append("MaxSMDFraction(").Append(j.ToString()).Append(")").Append("\n");
+            for (j = 0; j < landUseClasses; j++) header.Append((m++).ToString()).Append(MCParameters.separatorChar).Append("DirectRunoffPDCToDOC(").Append(j.ToString()).Append(")").Append("\n");
+            for (j = 0; j < landUseClasses; j++) header.Append((m++).ToString()).Append(MCParameters.separatorChar).Append("OrganicLayerFastPoolFraction(").Append(j.ToString()).Append(")").Append("\n");
+            for (j = 0; j < landUseClasses; j++) header.Append((m++).ToString()).Append(MCParameters.separatorChar).Append("OrganicLayerPartitioningRate(").Append(j.ToString()).Append(")").Append("\n");
+            for (j = 0; j < landUseClasses; j++) header.Append((m++).ToString()).Append(MCParameters.separatorChar).Append("MineralLayerFastPoolFraction(").Append(j.ToString()).Append(")").Append("\n");
+            for (j = 0; j < landUseClasses; j++) header.Append((m++).ToString()).Append(MCParameters.separatorChar).Append("MineralLayerPartitioningRate(").Append(j.ToString()).Append(")").Append("\n");
+            for (j = 0; j < landUseClasses; j++) header.Append((m++).ToString()).Append(MCParameters.separatorChar).Append("DirectRunoffResidenceTime(").Append(j.ToString()).Append(")").Append("\n");
+            for (j = 0; j < landUseClasses; j++) header.Append((m++).ToString()).Append(MCParameters.separatorChar).Append("OrganicLayerResidenceTime(").Append(j.ToString()).Append(")").Append("\n");
+            for (j = 0; j < landUseClasses; j++) header.Append((m++).ToString()).Append(MCParameters.separatorChar).Append("MineralLayerResidenceTime(").Append(j.ToString()).Append(")").Append("\n");
+            for (j = 0; j < landUseClasses; j++) header.Append((m++).ToString()).Append(MCParameters.separatorChar).Append("OrganicLayerRetentionVolume(").Append(j.ToString()).Append(")").Append("\n");
+            for (j = 0; j < landUseClasses; j++) header.Append((m++).ToString()).Append(MCParameters.separatorChar).Append("MineralLayerRetentionVolume(").Append(j.ToString()).Append(")").Append("\n");
+            header.Append((m++).ToString()).Append(MCParameters.separatorChar).Append("RiverFlow").Append("\n");
+            header.Append((m++).ToString()).Append(MCParameters.separatorChar).Append("InitialOpenWaterPDC").Append("\n");
+            header.Append((m++).ToString()).Append(MCParameters.separatorChar).Append("InitialOpenWaterDOC").Append("\n");
+            header.Append((m++).ToString()).Append(MCParameters.separatorChar).Append("InitialOpenWaterDIC").Append("\n");
+            header.Append((m++).ToString()).Append(MCParameters.separatorChar).Append("InitialWaterTemperature").Append("\n");
+            header.Append((m++).ToString()).Append(MCParameters.separatorChar).Append("MinimumWaterTemperature").Append("\n");
+            header.Append((m++).ToString()).Append(MCParameters.separatorChar).Append("WaterTemperatureLagFactor").Append("\n");
+            header.Append((m++).ToString()).Append(MCParameters.separatorChar).Append("numberOfReaches").Append("\n");
+            for (i = 0; i < numberOfReaches; i++)
+            {
+
+                header.Append((m++).ToString()).Append(MCParameters.separatorChar).Append("subCatchmentName(").Append(i.ToString()).Append(")").Append("\n");
+                header.Append((m++).ToString()).Append(MCParameters.separatorChar).Append("reachName(").Append(i.ToString()).Append(")").Append("\n");
+                header.Append((m++).ToString()).Append(MCParameters.separatorChar).Append("CatchmentArea(").Append(i.ToString()).Append(")").Append("\n");
+                for (j = 0; j < landUseClasses; j++)
+                    header.Append((m++).ToString()).Append(MCParameters.separatorChar).Append("Land(").Append(i.ToString()).Append("_").Append(j.ToString()).Append(")").Append("\n");
+                header.Append((m++).ToString()).Append(MCParameters.separatorChar).Append("BaseFlowIndex(").Append(i.ToString()).Append(")").Append("\n");
+                header.Append((m++).ToString()).Append(MCParameters.separatorChar).Append("ThresholdSoilZoneFlow(").Append(i.ToString()).Append(")").Append("\n");
+                header.Append((m++).ToString()).Append(MCParameters.separatorChar).Append("CO2SaturationConcentration(").Append(i.ToString()).Append(")").Append("\n");
+                header.Append((m++).ToString()).Append(MCParameters.separatorChar).Append("AtmosphericPartialPressureOfCO2(").Append(i.ToString()).Append(")").Append("\n");
+                header.Append((m++).ToString()).Append(MCParameters.separatorChar).Append("RainfallExcessProportion(").Append(i.ToString()).Append(")").Append("\n");
+                header.Append((m++).ToString()).Append(MCParameters.separatorChar).Append("HenrysLawConstant(").Append(i.ToString()).Append(")").Append("\n");
+                header.Append((m++).ToString()).Append(MCParameters.separatorChar).Append("RainfallExcessProportion(").Append(i.ToString()).Append(")").Append("\n");
+                header.Append((m++).ToString()).Append(MCParameters.separatorChar).Append("MaximumInfiltrationRate(").Append(i.ToString()).Append(")").Append("\n");
+                header.Append((m++).ToString()).Append(MCParameters.separatorChar).Append("DryDeposition(").Append(i.ToString()).Append(")").Append("\n");
+                header.Append((m++).ToString()).Append(MCParameters.separatorChar).Append("WetDeposition(").Append(i.ToString()).Append(")").Append("\n");
+                header.Append((m++).ToString()).Append(MCParameters.separatorChar).Append("reachLength(").Append(i.ToString()).Append(")").Append("\n");
+                header.Append((m++).ToString()).Append(MCParameters.separatorChar).Append("averageWidth(").Append(i.ToString()).Append(")").Append("\n");
+                header.Append((m++).ToString()).Append(MCParameters.separatorChar).Append("latitude(").Append(i.ToString()).Append(")").Append("\n");
+                header.Append((m++).ToString()).Append(MCParameters.separatorChar).Append("longitude(").Append(i.ToString()).Append(")").Append("\n");
+                header.Append((m++).ToString()).Append(MCParameters.separatorChar).Append("flow_a(").Append(i.ToString()).Append(")").Append("\n");
+                header.Append((m++).ToString()).Append(MCParameters.separatorChar).Append("flow_b(").Append(i.ToString()).Append(")").Append("\n");
+                header.Append((m++).ToString()).Append(MCParameters.separatorChar).Append("ReachArea(").Append(i.ToString()).Append(")").Append("\n");
+                header.Append((m++).ToString()).Append(MCParameters.separatorChar).Append("OpenWaterPDCSettlingVelocity(").Append(i.ToString()).Append(")").Append("\n");
+                header.Append((m++).ToString()).Append(MCParameters.separatorChar).Append("DOCToDICSelfShadingFactor(").Append(i.ToString()).Append(")").Append("\n");
+                header.Append((m++).ToString()).Append(MCParameters.separatorChar).Append("DOCToDICRadiationMultiplier(").Append(i.ToString()).Append(")").Append("\n");
+                header.Append((m++).ToString()).Append(MCParameters.separatorChar).Append("OpenWaterDOCToDICMicrobial(").Append(i.ToString()).Append(")").Append("\n");
+                header.Append((m++).ToString()).Append(MCParameters.separatorChar).Append("OpenWaterPDCToDOC(").Append(i.ToString()).Append(")").Append("\n");
+                header.Append((m++).ToString()).Append(MCParameters.separatorChar).Append("OpenWaterDOCToPDC(").Append(i.ToString()).Append(")").Append("\n");
+                header.Append((m++).ToString()).Append(MCParameters.separatorChar).Append("OpenWaterDICMassTransferRate(").Append(i.ToString()).Append(")").Append("\n");
+                header.Append((m++).ToString()).Append(MCParameters.separatorChar).Append("DICToPDCPhotosynthesis(").Append(i.ToString()).Append(")").Append("\n");
+                header.Append((m++).ToString()).Append(MCParameters.separatorChar).Append("AbstractionRate(").Append(i.ToString()).Append(")").Append("\n");
+                header.Append((m++).ToString()).Append(MCParameters.separatorChar).Append("EffluentInputRate(").Append(i.ToString()).Append(")").Append("\n");
+                header.Append((m++).ToString()).Append(MCParameters.separatorChar).Append("EffluentConcentration(").Append(i.ToString()).Append(")").Append("\n");
+                header.Append((m++).ToString()).Append(MCParameters.separatorChar).Append("LitterFallOntoReach(").Append(i.ToString()).Append(")").Append("\n");
+                header.Append((m++).ToString()).Append(MCParameters.separatorChar).Append("AbstractionOnOffSwitch(").Append(i.ToString()).Append(")").Append("\n");
+            }
+          
+        }
+    }
     class INCA_HgParameterArrayList : ParameterArrayList
     {
         public INCA_HgParameterArrayList(int landUseClasses, int numberOfReaches)

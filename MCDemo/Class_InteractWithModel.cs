@@ -542,7 +542,8 @@ namespace MC
                 case 10: //PERSiST 2.0
                     SetPERSiSTCoefficientWeights();
                     break;
-                case 2: //INCA-C
+                case 2: //INCA-C 1.x
+                case 11: //INCA-C 2.x
                     SetINCA_CCoefficientWeights();
                     break;
                 case 3: //INCA-PECo
@@ -585,6 +586,9 @@ namespace MC
                     break;
                 case 9: //INCA(ON)THE
                     WriteINCA_ONTHECoefficientWeights();
+                    break;
+                case 11: //INCA-C 2.x
+                    WriteINCA_C_2_CoefficientWeights();
                     break;
                 case 12:
                     WriteINCA_NCoefficientWeights();
@@ -648,6 +652,18 @@ namespace MC
                 cwf.WriteLine("R2 (Pearson Correlation), {0}", MCParameters.coefficientsWeights[1]);
                 cwf.WriteLine("NS (Nash Sutcliffe), {0}", MCParameters.coefficientsWeights[2]);
                 cwf.WriteLine("VR (Variance Ratio), {0}", MCParameters.coefficientsWeights[5]);
+            }
+        }
+        /// <summary>
+        /// Write coefficients for INCA-C 2 (interim)
+        /// </summary>
+        static void WriteINCA_C_2_CoefficientWeights()
+        {
+            //overwrite existing file
+            using (StreamWriter cwf = new StreamWriter(MCParameters.coefficientsWeightFile, false))
+            {
+                cwf.WriteLine("R2 (Pearson Correlation), {0}", MCParameters.coefficientsWeights[1]);
+                cwf.WriteLine("NS (Nash Sutcliffe), {0}", MCParameters.coefficientsWeights[2]);
             }
         }
         /// <summary>

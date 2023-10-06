@@ -9,11 +9,11 @@ using System.IO;
 
 namespace MC
 {
-    class resultsDatabase
+    class ResultsDatabase
     {
         protected OdbcConnection localConnection;
 
-        public resultsDatabase()
+        public ResultsDatabase()
         {
             localConnection = new OdbcConnection();
         }

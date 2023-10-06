@@ -8,7 +8,7 @@ namespace MC
 {
     class SummarizeResults
     {
-        public static void write(string modelCommandLine)
+        public static void write(string modelCommandLine, ResultsDatabase rd)
         {
             int iterations = MCParameters.maxTries;
 
@@ -20,10 +20,6 @@ namespace MC
             if (File.Exists(MCParameters.parameterValueListFile))
                 File.Delete(MCParameters.parameterValueListFile);
 
-            resultsDatabase rd = new resultsDatabase();
-            rd.makeCoefficientsTable();
-            rd.makeResultsTable();
-
             //switch doesn't seem to work so use a bunch of if statements, really not very elegant but ....
             //needs to be rethought as it is getting more than a little messy
             //
@@ -33,7 +29,7 @@ namespace MC
                 parList.write(MCParameters.parameterNameListFile);
                 rd.writeParameterNames(parList);
             }
-            if (MCParameters.model == 2) // running INCA-C
+            if (MCParameters.model == 2) // running INCA-C 1.x
             {
                 INCA_CParameterArrayList parList = new INCA_CParameterArrayList(MCParameters.numberOfLandUses, MCParameters.numberOfReaches);
                 parList.write(MCParameters.parameterNameListFile);
@@ -87,6 +83,12 @@ namespace MC
                 parList.write(MCParameters.parameterNameListFile);
                 rd.writeParameterNames(parList);
             }
+            if(MCParameters.model==11) //running INCA-C 2.0
+            {
+                INCA_C_2_ParameterArrayList parList = new INCA_C_2_ParameterArrayList(MCParameters.numberOfLandUses, MCParameters.numberOfReaches);
+                parList.write(MCParameters.parameterNameListFile);
+                rd.writeParameterNames(parList);
+            }
             if(MCParameters.model==12) //running INCA-N classic
             {
                 INCA_NParameterArrayList parList = new INCA_NParameterArrayList(MCParameters.numberOfLandUses, MCParameters.numberOfReaches);
@@ -113,7 +115,7 @@ namespace MC
 
             for (int i = 0; i < MCParameters.runsToOrganize; i++)
             {
-                runOnce(i, modelCommandLine, MCParameters.parameterArrayFileName);
+                runOnce(i, modelCommandLine, MCParameters.parameterArrayFileName, rd);
             }
 
             //write the coefficients for each model run
@@ -141,7 +143,7 @@ namespace MC
             }
         }
 
-        static void runOnce(int runNumber, string modelCommandLine, string outputFileName)
+        static void runOnce(int runNumber, string modelCommandLine, string outputFileName, ResultsDatabase rd)
         {
             parameterSet p = new parameterSet(MCParameters.MCParFile);
 
@@ -149,7 +151,6 @@ namespace MC
             File.Copy(MCParameters.bestParSetFileName, MCParameters.MCParFile, true);
             p.writeToFileAsList(runNumber, MCParameters.parameterValueListFile);
 
-            resultsDatabase rd = new resultsDatabase();
             rd.writeParameterSet(runNumber, p);
 
             InteractWithModel.RunModel(modelCommandLine);
