@@ -20,6 +20,10 @@ namespace MC
             if (File.Exists(MCParameters.parameterValueListFile))
                 File.Delete(MCParameters.parameterValueListFile);
 
+            //ResultsDatabase rd = new ResultsDatabase();
+            rd.makeCoefficientsTable();
+            rd.makeResultsTable();
+
             //switch doesn't seem to work so use a bunch of if statements, really not very elegant but ....
             //needs to be rethought as it is getting more than a little messy
             //
